@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,9 @@ public class Answer {
     @JoinColumn(name = "question_id")
     @JsonIgnore
     private Question question;
+
+    @OneToMany(mappedBy = "answer")
+    private List<File> files;
 
     private boolean status;
 

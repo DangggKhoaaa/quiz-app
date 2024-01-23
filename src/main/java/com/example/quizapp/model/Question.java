@@ -1,5 +1,6 @@
 package com.example.quizapp.model;
 
+import com.example.quizapp.model.enums.Type;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

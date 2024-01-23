@@ -1,4 +1,4 @@
-package com.example.quizapp.model;
+package com.example.quizapp.model.enums;
 
 public enum Type {
     radio, checkbox, trueOrFalse
