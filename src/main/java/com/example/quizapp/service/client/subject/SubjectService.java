@@ -15,10 +15,10 @@ import java.util.List;
 public class SubjectService {
     private final SubjectRepository subjectRepository;
 
-    public List<SubjectListResponse> findAllByClassId(SubjectListRequest request){
+    public List<SubjectListResponse> findAllByClassId(Long id){
         List<SubjectListResponse> result = new ArrayList<>();
-        var classNames = subjectRepository.findSubjectByClassName_Id(request.getId());
-        for(var item : classNames){
+        var subjects = subjectRepository.findSubjectByClassName_Id(id);
+        for(var item : subjects){
             SubjectListResponse subjectList = AppUtils.mapper.map(item , SubjectListResponse.class);
             result.add(subjectList);
         }
