@@ -26,7 +26,7 @@ public class QuestionService {
             var answers = answerRepository.findAnswerByQuestion_Id(question.getId());
             for(var answer : answers){
                 var answerResponse = AppUtils.mapper.map(answer, AnswerResponse.class);
-                questionResponse.getAnswerResponseList().add(answerResponse);
+                questionResponse.getAnswers().add(answerResponse);
             }
             result.add(questionResponse);
         }
