@@ -26,6 +26,16 @@ public class QuizService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
 
+    public List<QuizListResponse> findAllBySubjectId(Long id) {
+        List<QuizListResponse> result = new ArrayList<>();
+        var quizList = quizRepository.findQuizBySubject_Id(id);
+        for(var quiz : quizList){
+            var quizListResponse = AppUtils.mapper.map(quiz, QuizListResponse.class);
+            result.add(quizListResponse);
+        }
+        return result;
+    }
+
     public List<QuizListResponse> findQuizByClass () {
         List<QuizListResponse> result = new ArrayList<>();
         var subject = subjectRepository.findById(1L);
@@ -35,7 +45,6 @@ public class QuizService {
             var questions = questionRepository.findQuestionByQuizQ_Id(quiz.getId());
             for(var question : questions){
                 var questionResponse = AppUtils.mapper.map(question, QuestionResponse.class);
-                quizListResponse.getQuestionResponseList().add(questionResponse);
                 var answers = answerRepository.findAnswerByQuestion_Id(question.getId());
                 for(var answer : answers){
                     var answerResponse = AppUtils.mapper.map(answer, AnswerResponse.class);

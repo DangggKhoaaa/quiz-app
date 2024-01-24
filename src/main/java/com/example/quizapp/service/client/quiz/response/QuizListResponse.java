@@ -17,5 +17,4 @@ public class QuizListResponse {
 
     private Long id;
     private String content;
-    private List<QuestionResponse> questionResponseList = new ArrayList<>();
 }
