@@ -36,23 +36,23 @@ public class QuizService {
         return result;
     }
 
-    public List<QuizListResponse> findQuizByClass () {
-        List<QuizListResponse> result = new ArrayList<>();
-        var subject = subjectRepository.findById(1L);
-        var quizList = quizRepository.findQuizBySubject_Id(subject.get().getId());
-        for(var quiz : quizList){
-            var quizListResponse = AppUtils.mapper.map(quiz , QuizListResponse.class);
-            var questions = questionRepository.findQuestionByQuizQ_Id(quiz.getId());
-            for(var question : questions){
-                var questionResponse = AppUtils.mapper.map(question, QuestionResponse.class);
-                var answers = answerRepository.findAnswerByQuestion_Id(question.getId());
-                for(var answer : answers){
-                    var answerResponse = AppUtils.mapper.map(answer, AnswerResponse.class);
-                    questionResponse.getAnswerResponseList().add(answerResponse);
-                }
-            }
-            result.add(quizListResponse);
-        }
-        return result;
-    }
+//    public List<QuizListResponse> findQuizByClass () {
+//        List<QuizListResponse> result = new ArrayList<>();
+//        var subject = subjectRepository.findById(1L);
+//        var quizList = quizRepository.findQuizBySubject_Id(subject.get().getId());
+//        for(var quiz : quizList){
+//            var quizListResponse = AppUtils.mapper.map(quiz , QuizListResponse.class);
+//            var questions = questionRepository.findQuestionByQuizQ_Id(quiz.getId());
+//            for(var question : questions){
+//                var questionResponse = AppUtils.mapper.map(question, QuestionResponse.class);
+//                var answers = answerRepository.findAnswerByQuestion_Id(question.getId());
+//                for(var answer : answers){
+//                    var answerResponse = AppUtils.mapper.map(answer, AnswerResponse.class);
+//                    questionResponse.getAnswerResponseList().add(answerResponse);
+//                }
+//            }
+//            result.add(quizListResponse);
+//        }
+//        return result;
+//    }
 }
