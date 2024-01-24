@@ -19,5 +19,5 @@ public class QuestionResponse {
     private Long id;
     private String content;
     private String type;
-    private List<AnswerResponse> answers = new ArrayList<>();
+    private List<AnswerResponse> answerList = new ArrayList<>();
 }
