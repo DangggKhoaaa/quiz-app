@@ -16,5 +16,5 @@ import java.util.List;
 public class AnswerResponse {
     private Long id;
     private String content;
-    private List<FileResponse> fileResponseList = new ArrayList<>();
+    private List<FileResponse> files = new ArrayList<>();
 }
