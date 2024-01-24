@@ -41,6 +41,7 @@ public class QuestionService {
     private QuestionResponse mapQuestionWithAnswers(Question question) {
         var questionResponse = AppUtils.mapper.map(question, QuestionResponse.class);
         var answers = answerRepository.findAnswerByQuestion_Id(question.getId());
+        Collections.shuffle(answers);
         for (var answer : answers) {
             var answerResponse = AppUtils.mapper.map(answer, AnswerResponse.class);
             questionResponse.getAnswerList().add(answerResponse);
