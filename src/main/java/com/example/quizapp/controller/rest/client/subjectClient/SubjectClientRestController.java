@@ -17,7 +17,7 @@ import java.util.List;
 public class SubjectClientRestController {
     private final SubjectService subjectService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id4}")
     public List<SubjectListResponse> findAllByClassId(@PathVariable Long id) {
         return subjectService.findAllByClassId(id);
     }
