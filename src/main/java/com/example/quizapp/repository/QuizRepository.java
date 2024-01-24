@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
   List <Quiz>  findQuizBySubject_Id(Long subject_id);
+
+
 }

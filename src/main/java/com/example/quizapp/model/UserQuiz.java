@@ -3,6 +3,7 @@ package com.example.quizapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class UserQuiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer score;
+    private Integer score = 0;
 
     private LocalDate date;
 
