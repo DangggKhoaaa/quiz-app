@@ -12,8 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UserQuizSaveRequest {
-    private String answerId;
+    private List<String> answerId;
     private String questionId;
-
 
 }
