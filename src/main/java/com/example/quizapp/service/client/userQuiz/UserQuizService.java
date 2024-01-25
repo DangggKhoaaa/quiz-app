@@ -29,7 +29,7 @@ public class UserQuizService {
             var question = questionRepository.findById(Long.parseLong(item.getQuestionId()));
             var answers = answerRepository.findAnswerByQuestion_IdAndStatusIsTrue(question.get().getId());
             for (var answer : item.getAnswerId()) {
-                if (answers.size() <= 1) {
+                if (answers.size() == 1 && item.getAnswerId().size() == answers.size()) {
                     for (var radioAnswer : answers) {
                         if (radioAnswer.getId().equals(Long.parseLong(answer))) {
                             userQuiz.setScore(userQuiz.getScore() + 1);
@@ -47,7 +47,6 @@ public class UserQuizService {
                             }
                         }
                     }
-
                 }
             }
             userQuiz.setQuiz(question.get().getQuizQ());
