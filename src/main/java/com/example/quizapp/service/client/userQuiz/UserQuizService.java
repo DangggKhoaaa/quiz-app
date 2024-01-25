@@ -51,10 +51,10 @@ public class UserQuizService {
                             }
                         }
                     }
+                    userQuiz.setQuiz(question.get().getQuizQ());
+                    userQuiz.setDate(LocalDate.now());
+                    userQuizResponse.setDateComplete(LocalDate.now());
                 }
-                userQuiz.setQuiz(question.get().getQuizQ());
-                userQuiz.setDate(LocalDate.now());
-                userQuizResponse.setDateComplete(LocalDate.now());
             }
         }
         userQuizRepository.save(userQuiz);

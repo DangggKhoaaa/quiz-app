@@ -14,6 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User register(UserRequest request) {
+        var user = new User();
         return userRepository.save(AppUtils.mapper.map(request, User.class)) ;
     }
 }
