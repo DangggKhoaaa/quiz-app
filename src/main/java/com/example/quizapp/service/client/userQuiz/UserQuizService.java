@@ -41,19 +41,20 @@ public class UserQuizService {
                         }
                     }
                 } else {
-                    for (var checkboxAnswer : answers) {
-                        if (checkboxAnswer.getId() != Long.parseLong(answer)) {
-                            break;
-                        } else {
-                            userQuiz.setDate(LocalDate.now());
-                            userQuiz.setScore(userQuiz.getScore() + 1);
-                            userQuiz.setQuiz(question.get().getQuizQ());
-
-                            userQuizResponse.setScore(userQuizResponse.getScore() + 1);
-                            userQuizResponse.setDateComplete(LocalDate.now());
+                    if(item.getAnswerId().size() == answers.size() ){
+                        for (var checkboxAnswer : answers) {
+                            if (checkboxAnswer.getId() != Long.parseLong(answer)) {
+                                break;
+                            } else {
+                                userQuiz.setScore(userQuiz.getScore() + 1);
+                                userQuizResponse.setScore(userQuizResponse.getScore() + 1);
+                            }
                         }
                     }
                 }
+                userQuiz.setQuiz(question.get().getQuizQ());
+                userQuiz.setDate(LocalDate.now());
+                userQuizResponse.setDateComplete(LocalDate.now());
             }
         }
         userQuizRepository.save(userQuiz);
