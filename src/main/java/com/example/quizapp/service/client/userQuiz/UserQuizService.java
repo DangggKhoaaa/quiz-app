@@ -25,19 +25,36 @@ public class UserQuizService {
     public UserQuizResponse result (List<UserQuizSaveRequest> request) {
         var userQuizResponse = new UserQuizResponse();
         var userQuiz = new UserQuiz();
-        for(var item : request){
+        for(var item : request) {
             var question = questionRepository.findById(Long.parseLong(item.getQuestionId()));
-                var answers = answerRepository.findAnswerByQuestion_IdAndStatusIsTrue(question.get().getId());
-                for(var answer : answers){
-                    if(answer.getId().equals(Long.parseLong(item.getAnswerId()))){
-                        userQuiz.setDate(LocalDate.now());
-                        userQuiz.setScore(userQuiz.getScore() + 1);
-                        userQuiz.setQuiz(question.get().getQuizQ());
+            var answers = answerRepository.findAnswerByQuestion_IdAndStatusIsTrue(question.get().getId());
+            for (var answer : item.getAnswerId()) {
+                if (answers.size() <= 1) {
+                    for (var radioAnswer : answers) {
+                        if (radioAnswer.getId().equals(Long.parseLong(answer))) {
+                            userQuiz.setDate(LocalDate.now());
+                            userQuiz.setScore(userQuiz.getScore() + 1);
+                            userQuiz.setQuiz(question.get().getQuizQ());
 
-                        userQuizResponse.setScore(userQuizResponse.getScore() + 1);
-                        userQuizResponse.setDateComplete(LocalDate.now());
+                            userQuizResponse.setScore(userQuizResponse.getScore() + 1);
+                            userQuizResponse.setDateComplete(LocalDate.now());
+                        }
+                    }
+                } else {
+                    for (var checkboxAnswer : answers) {
+                        if (checkboxAnswer.getId() != Long.parseLong(answer)) {
+                            break;
+                        } else {
+                            userQuiz.setDate(LocalDate.now());
+                            userQuiz.setScore(userQuiz.getScore() + 1);
+                            userQuiz.setQuiz(question.get().getQuizQ());
+
+                            userQuizResponse.setScore(userQuizResponse.getScore() + 1);
+                            userQuizResponse.setDateComplete(LocalDate.now());
+                        }
                     }
                 }
+            }
         }
         userQuizRepository.save(userQuiz);
         return userQuizResponse;
