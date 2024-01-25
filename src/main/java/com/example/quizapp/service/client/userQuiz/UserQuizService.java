@@ -32,12 +32,8 @@ public class UserQuizService {
                 if (answers.size() <= 1) {
                     for (var radioAnswer : answers) {
                         if (radioAnswer.getId().equals(Long.parseLong(answer))) {
-                            userQuiz.setDate(LocalDate.now());
                             userQuiz.setScore(userQuiz.getScore() + 1);
-                            userQuiz.setQuiz(question.get().getQuizQ());
-
                             userQuizResponse.setScore(userQuizResponse.getScore() + 1);
-                            userQuizResponse.setDateComplete(LocalDate.now());
                         }
                     }
                 } else {
@@ -51,11 +47,12 @@ public class UserQuizService {
                             }
                         }
                     }
-                    userQuiz.setQuiz(question.get().getQuizQ());
-                    userQuiz.setDate(LocalDate.now());
-                    userQuizResponse.setDateComplete(LocalDate.now());
+
                 }
             }
+            userQuiz.setQuiz(question.get().getQuizQ());
+            userQuiz.setDate(LocalDate.now());
+            userQuizResponse.setDateComplete(LocalDate.now());
         }
         userQuizRepository.save(userQuiz);
         return userQuizResponse;
