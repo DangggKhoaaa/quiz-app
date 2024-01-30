@@ -13,5 +13,5 @@ import java.time.LocalDate;
 @Setter
 public class UserQuizResponse {
     private LocalDate dateComplete;
-    private Integer score = 0;
+    private float score = 0;
 }

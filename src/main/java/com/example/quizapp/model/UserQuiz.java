@@ -16,7 +16,7 @@ public class UserQuiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer score = 0;
+    private float score = 0;
 
     private LocalDate date;
 

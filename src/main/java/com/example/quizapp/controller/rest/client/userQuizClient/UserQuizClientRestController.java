@@ -18,7 +18,7 @@ public class UserQuizClientRestController {
     private final UserQuizService userQuizService;
 
     @PostMapping
-    public UserQuizResponse result (@RequestBody List<UserQuizSaveRequest> request) {
+    public UserQuizResponse result (@RequestBody UserQuizSaveRequest request) {
         return userQuizService.result(request);
     }
 }
