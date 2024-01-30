@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 public class QuestionResponse {
-
     private Long id;
     private String content;
     private String type;
