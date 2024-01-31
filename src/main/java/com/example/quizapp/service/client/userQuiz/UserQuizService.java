@@ -29,7 +29,7 @@ public class UserQuizService {
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
 
         float totalScore = 0;
-        for(var item : request.getQuestions()) {
+        for(var item : request.getSelectedAnswers()) {
             var question = questionRepository.findById(Long.parseLong(item.getQuestionId()));
             var answers = answerRepository.findAnswerByQuestion_IdAndStatusIsTrue(question.get().getId());
             for (var answer : item.getAnswerId()) {

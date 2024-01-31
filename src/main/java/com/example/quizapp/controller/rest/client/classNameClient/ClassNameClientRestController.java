@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/client/classes")
-
+@CrossOrigin(origins = {"*"})
 public class ClassNameClientRestController {
     private final ClassNameService classNameService;
     @GetMapping

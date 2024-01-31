@@ -14,6 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 public class UserQuizSaveRequest {
-    private List<UserQuizRequest> questions = new ArrayList<>();
+    private List<UserQuizRequest> selectedAnswers = new ArrayList<>();
     private String totalQuestion;
 }
