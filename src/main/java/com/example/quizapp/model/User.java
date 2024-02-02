@@ -22,6 +22,7 @@ public class User {
     private String password;
 
     private String name;
+    private String className;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
