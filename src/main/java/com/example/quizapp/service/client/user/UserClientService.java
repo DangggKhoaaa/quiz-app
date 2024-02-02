@@ -5,6 +5,8 @@ import com.example.quizapp.model.enums.Role;
 import com.example.quizapp.repository.UserRepository;
 import com.example.quizapp.security.JwtTokenProvider;
 import com.example.quizapp.service.client.user.request.UserRequest;
+import com.example.quizapp.service.client.user.response.LoginResponse;
+import com.example.quizapp.service.client.user.response.UserClientResponse;
 import com.example.quizapp.util.AppUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +32,6 @@ public class UserClientService {
     public ResponseEntity<?> register(UserRequest request) {
         if(userRepository.existsByUsernameIgnoreCase(request.getUsername()))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tên Đăng Nhập Đã Tồn Tại");
-        if(userRepository.existsByNameIgnoreCase(request.getName()))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tên Người Dùng Đã Tồn Tại");
 
         var user = AppUtils.mapper.map(request, User.class);
         user.setRole(Role.ROLE_USER);
@@ -39,12 +40,17 @@ public class UserClientService {
         return ResponseEntity.noContent().build();
     }
 
-    public String login(UserRequest request) {
+    public LoginResponse login(UserRequest request) {
         var user = userRepository.findByUsername(request.getUsername());
-                if(user.isEmpty())
-                    return ("Tài Khoản Không Tồn Tại");
-        String token = jwtTokenProvider.generateToken(user.get().getUsername(), user.get().getRole().toString());
-        return token;
+        if(user.isPresent()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if(passwordEncoder.matches(request.getPassword(), user.get().getPassword())){
+                var userClientResponse = AppUtils.mapper.map(user, UserClientResponse.class);
+                userClientResponse.setToken(jwtTokenProvider.generateToken(user.get().getUsername(), user.get().getRole().toString()));
+                return LoginResponse.success(userClientResponse,"Đăng Nhập Thành Công");
+            }
+        }
+        return LoginResponse.failed("Tên Đăng Nhập Hoặc Mật Khẩu Không Đúng");
     }
 
 }
