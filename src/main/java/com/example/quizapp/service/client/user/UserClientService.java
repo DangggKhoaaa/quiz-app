@@ -4,7 +4,9 @@ import com.example.quizapp.model.User;
 import com.example.quizapp.model.enums.Role;
 import com.example.quizapp.repository.UserRepository;
 import com.example.quizapp.security.JwtTokenProvider;
+import com.example.quizapp.service.client.user.request.LoginGoogleRequest;
 import com.example.quizapp.service.client.user.request.UserRequest;
+import com.example.quizapp.service.client.user.response.LoginGoogleResponse;
 import com.example.quizapp.service.client.user.response.LoginResponse;
 import com.example.quizapp.service.client.user.response.UserClientResponse;
 import com.example.quizapp.util.AppUtils;
@@ -52,5 +54,26 @@ public class UserClientService {
         }
         return LoginResponse.failed("Tên Đăng Nhập Hoặc Mật Khẩu Không Đúng");
     }
+
+    public LoginGoogleResponse loginGoogle(LoginGoogleRequest request) {
+        var user = userRepository.findByUsername(request.getEmail());
+        var result = new LoginGoogleResponse();
+
+        if(user.isPresent()){
+            result = AppUtils.mapper.map(user, LoginGoogleResponse.class);
+            result.setToken(jwtTokenProvider.generateToken(user.get().getUsername(), user.get().getRole().toString()));
+        }
+        else {
+            var newUser = AppUtils.mapper.map(request, User.class);
+            newUser.setUsername(request.getEmail());
+            newUser.setRole(Role.ROLE_USER);
+            userRepository.save(newUser);
+
+            result.setToken(jwtTokenProvider.generateToken(newUser.getUsername(), newUser.getRole().toString()));
+
+        }
+        return result;
+    }
+
 
 }

@@ -2,9 +2,10 @@ package com.example.quizapp.controller.rest.authentication;
 
 import com.example.quizapp.model.User;
 import com.example.quizapp.service.client.user.UserClientService;
+import com.example.quizapp.service.client.user.request.LoginGoogleRequest;
 import com.example.quizapp.service.client.user.request.UserRequest;
+import com.example.quizapp.service.client.user.response.LoginGoogleResponse;
 import com.example.quizapp.service.client.user.response.LoginResponse;
-import com.example.quizapp.service.client.user.response.UserClientResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,5 +28,10 @@ public class AuthResController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody UserRequest request) {
         return userService.login(request);
+    }
+
+    @PostMapping("/loginGoogle")
+    public LoginGoogleResponse loginGoogle(@RequestBody LoginGoogleRequest request) {
+        return userService.loginGoogle(request);
     }
 }
