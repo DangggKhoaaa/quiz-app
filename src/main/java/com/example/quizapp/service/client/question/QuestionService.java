@@ -23,7 +23,7 @@ public class QuestionService {
     public List<QuestionResponse> findAllByQuizId(Long id) {
         List<QuestionResponse> result = new ArrayList<>();
         var questions = questionRepository.findQuestionByQuizQ_Id(id);
-        if(questions.size() <= 3){
+        if(questions.size() <= 5){
             for (var question : questions) {
                 result.add(mapQuestionWithAnswers(question));
             }
@@ -31,7 +31,7 @@ public class QuestionService {
         else {
             List<Question> randomQuestions = new ArrayList<>(questions);
             Collections.shuffle(randomQuestions);
-            for(int i = 0 ; i < 3 ; i++){
+            for(int i = 0 ; i < 5 ; i++){
                 result.add(mapQuestionWithAnswers(randomQuestions.get(i)));
             }
         }

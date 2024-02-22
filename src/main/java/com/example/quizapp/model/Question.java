@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,10 @@ public class Question {
     private Long id;
 
     private String content;
+
+    private String creator;
+
+    private LocalDate dateCreated = LocalDate.now();
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
