@@ -82,7 +82,7 @@ public class UserClientService {
         var user = userRepository.findByUsername(currentUsername);
         if(user.isPresent()){
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            if(passwordEncoder.matches(request.getCurrentPassword(),user.get().getPassword())){
+            if(passwordEncoder.matches(request.getOldPassword(),user.get().getPassword())){
                 String newPassword = passwordEncoder.encode(request.getNewPassword());
                 user.get().setPassword(newPassword);
                 userRepository.save(user.get());
