@@ -4,6 +4,7 @@ import com.example.quizapp.model.User;
 import com.example.quizapp.model.enums.Role;
 import com.example.quizapp.repository.UserRepository;
 import com.example.quizapp.security.JwtTokenProvider;
+import com.example.quizapp.service.client.user.request.ChangePasswordRequest;
 import com.example.quizapp.service.client.user.request.LoginGoogleRequest;
 import com.example.quizapp.service.client.user.request.UserRequest;
 import com.example.quizapp.service.client.user.response.LoginGoogleResponse;
@@ -75,5 +76,20 @@ public class UserClientService {
         return result;
     }
 
+    public ResponseEntity<?> changePassword(ChangePasswordRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        var user = userRepository.findByUsername(currentUsername);
+        if(user.isPresent()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if(passwordEncoder.matches(request.getCurrentPassword(),user.get().getPassword())){
+                String newPassword = passwordEncoder.encode(request.getNewPassword());
+                user.get().setPassword(newPassword);
+                userRepository.save(user.get());
+                return ResponseEntity.ok("Đổi Mật Khẩu Thành Công");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai Mật Khẩu");
+    }
 
 }

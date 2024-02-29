@@ -2,6 +2,7 @@ package com.example.quizapp.controller.rest.authentication;
 
 import com.example.quizapp.model.User;
 import com.example.quizapp.service.client.user.UserClientService;
+import com.example.quizapp.service.client.user.request.ChangePasswordRequest;
 import com.example.quizapp.service.client.user.request.LoginGoogleRequest;
 import com.example.quizapp.service.client.user.request.UserRequest;
 import com.example.quizapp.service.client.user.response.LoginGoogleResponse;
@@ -21,7 +22,8 @@ public class AuthResController {
     private final UserClientService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRequest request) {
+    public ResponseEntity<?> register(@RequestBody UserRequest request)
+    {
         return userService.register(request);
     }
 
@@ -33,5 +35,10 @@ public class AuthResController {
     @PostMapping("/loginGoogle")
     public LoginGoogleResponse loginGoogle(@RequestBody LoginGoogleRequest request) {
         return userService.loginGoogle(request);
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+        return userService.changePassword(request);
     }
 }
