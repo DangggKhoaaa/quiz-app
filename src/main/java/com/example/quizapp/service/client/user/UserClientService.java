@@ -47,7 +47,7 @@ public class UserClientService {
         var user = userRepository.findByUsername(request.getUsername());
         if(user.isPresent()){
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            if(passwordEncoder.matches(request.getPassword(), user.get().getPassword())){
+            if(passwordEncoder.matches(request.getPassword(), user.get().getPassword()) && request.getUsername().equals(user.get().getUsername())){
                 var userClientResponse = AppUtils.mapper.map(user, UserClientResponse.class);
                 userClientResponse.setToken(jwtTokenProvider.generateToken(user.get().getUsername(), user.get().getRole().toString()));
                 return LoginResponse.success(userClientResponse,"Đăng Nhập Thành Công");

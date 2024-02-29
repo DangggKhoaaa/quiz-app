@@ -8,6 +8,7 @@ import com.example.quizapp.repository.QuestionRepository;
 import com.example.quizapp.repository.QuizRepository;
 import com.example.quizapp.repository.SubjectRepository;
 import com.example.quizapp.service.admin.questionAdmin.request.QuestionAdminRequest;
+import com.example.quizapp.service.admin.questionAdmin.request.QuestionCheckboxAdminRequest;
 import com.example.quizapp.util.AppUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class QuestionAdminService {
     public Question createQuestion(QuestionAdminRequest request , Long id) {
         var result = new Question();
         var quiz = quizRepository.findById(id);
+        result.setCreator(request.getCreator());
         result.setType(Type.valueOf(request.getType()));
         result.setQuizQ(quiz.get());
         result.setContent(request.getQuestion());
@@ -37,6 +39,27 @@ public class QuestionAdminService {
                     answer.setQuestion(question.get());
                     answer.setStatus(i == 0);
                     answerRepository.save(answer);
+        }
+        return result;
+    }
+
+    public Question createQuestionCheckbox(QuestionCheckboxAdminRequest request , Long id) {
+        var result = new Question();
+        var quiz = quizRepository.findById(id);
+        result.setType(Type.valueOf(request.getType()));
+        result.setCreator(request.getCreator());
+        result.setQuizQ(quiz.get());
+        result.setContent(request.getQuestion());
+        questionRepository.save(result);
+        var question = questionRepository.findById(result.getId());
+        int correctAnswerCount = Integer.parseInt(request.getCorrectAnswerCount());
+        for(var i = 0 ; i < request.getAnswers().size() ; i ++){
+            var answer = new Answer();
+            var item = request.getAnswers().get(i);
+            answer.setContent(item.getContent());
+            answer.setQuestion(question.get());
+            answer.setStatus(i < correctAnswerCount);
+            answerRepository.save(answer);
         }
         return result;
     }
