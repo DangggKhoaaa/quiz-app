@@ -89,7 +89,7 @@ public class UserClientService {
                 return ResponseEntity.ok("Đổi Mật Khẩu Thành Công");
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai Mật Khẩu");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mật Khẩu Hiện Tại Không Đúng");
     }
 
 }
