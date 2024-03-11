@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class UserClientResponse {
+    private String school;
     private String username;
     private String className;
     private String name;

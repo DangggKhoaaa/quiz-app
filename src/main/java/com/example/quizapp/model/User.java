@@ -21,6 +21,7 @@ public class User {
 
     private String password;
 
+    private String school;
     private String name;
     private String className;
 
