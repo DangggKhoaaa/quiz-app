@@ -1,13 +1,12 @@
 package com.example.quizapp.service.client.userQuiz;
 
 import com.example.quizapp.model.UserQuiz;
-import com.example.quizapp.repository.AnswerRepository;
-import com.example.quizapp.repository.QuestionRepository;
-import com.example.quizapp.repository.QuizRepository;
-import com.example.quizapp.repository.UserQuizRepository;
+import com.example.quizapp.repository.*;
 import com.example.quizapp.service.client.userQuiz.request.UserQuizSaveRequest;
 import com.example.quizapp.service.client.userQuiz.response.UserQuizResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,11 +21,15 @@ public class UserQuizService {
     private final QuizRepository quizRepository;
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
+    private final UserRepository userRepository;
 
     public UserQuizResponse result (UserQuizSaveRequest request) {
         var userQuizResponse = new UserQuizResponse();
         var userQuiz = new UserQuiz();
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        var user = userRepository.findByUsername(currentUsername);
 
         float totalScore = 0;
         for(var item : request.getSelectedAnswers()) {
@@ -55,9 +58,10 @@ public class UserQuizService {
             userQuiz.setScore(Float.parseFloat(formattedScore));
             userQuizResponse.setScore(Float.parseFloat(formattedScore));
             userQuiz.setQuiz(question.get().getQuizQ());
-            userQuiz.setDate(LocalDate.now());
-            userQuizResponse.setDateComplete(LocalDate.now());
         }
+        userQuiz.setDate(LocalDate.now());
+        userQuizResponse.setDateComplete(LocalDate.now());
+        userQuiz.setUser(user.get());
         userQuizRepository.save(userQuiz);
         return userQuizResponse;
     }
